@@ -68,7 +68,7 @@ def create_scen_file(agents_data, map_name, scen_num, output_dir):
 def create_yaml_output(paths_file, csv_file, yaml_file, agent_names):
     """Creates the final YAML output from the simulation results."""
     # Load the raw path data
-    solution_path = np.load(paths_file) # Shape: (Timesteps, Agents, 2)
+    solution_path = np.load(paths_file) # Shape: (Timesteps, Agents, 2) -> (t, agent, [y, x])
     
     # Load the statistics from the CSV
     stats_df = pd.read_csv(csv_file)
@@ -80,7 +80,8 @@ def create_yaml_output(paths_file, csv_file, yaml_file, agent_names):
         agent_name = agent_names[i]
         trajectory = []
         for t in range(solution_path.shape[0]): # Iterate through timesteps
-            pos = solution_path[t, i]
+            pos = solution_path[t, i] # pos is [y, x] from the simulator
+            # Flip to [x, y] for the final output YAML
             trajectory.append({'x': int(pos[1]), 'y': int(pos[0]), 't': t})
         schedule[agent_name] = trajectory
 
