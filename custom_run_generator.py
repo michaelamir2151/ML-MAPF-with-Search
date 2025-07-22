@@ -80,9 +80,8 @@ def create_yaml_output(paths_file, csv_file, yaml_file, agent_names):
         agent_name = agent_names[i]
         trajectory = []
         for t in range(solution_path.shape[0]): # Iterate through timesteps
-            pos = solution_path[t, i] # pos is [y, x] from the simulator
-            # Flip to [x, y] for the final output YAML
-            trajectory.append({'x': int(pos[1]), 'y': int(pos[0]), 't': t})
+            pos = solution_path[t, i] 
+            trajectory.append({'x': int(pos[0]), 'y': int(pos[1]), 't': t})
         schedule[agent_name] = trajectory
 
     # Build the final output dictionary
